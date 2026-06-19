@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSI — Калькулятор индекса самодостаточности бизнес-идеи</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+  min-height: 100vh;
+  color: #2c3e50;
+}
+.container { max-width: 1280px; margin: 0 auto; padding: 20px; }
+
+/* HEADER */
+.header {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
+  border-radius: 16px;
+  padding: 25px 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  box-shadow: 0 8px 32px rgba(30, 60, 114, 0.3);
+  margin-bottom: 25px;
+}
+.header-logo {
+  flex-shrink: 0;
+  background: white;
+  padding: 10px 15px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 140px;
+  height: 90px;
+}
+.header-logo img {
+  max-height: 70px;
+  max-width: 120px;
+  object-fit: contain;
+}
+.header-content {
+  flex: 1;
+  text-align: center;
+}
+.header-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+.header-subtitle {
+  font-size: 15px;
+  opacity: 0.95;
+  margin-bottom: 4px;
+}
+.header-authors {
+  font-size: 13px;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+/* ПЛАШКА УМНОЙ ВСТАВКИ */
+.paste-hint {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 14px 22px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.paste-hint:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+.paste-hint kbd {
+  background: rgba(255,255,255,0.25);
+  padding: 3px 10px;
+  border-radius: 5px;
+  font-family: monospace;
+  font-size: 14px;
+}
+
+/* КАРТОЧКИ */
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  margin-bottom: 20px;
+}
+
+/* ВКЛАДКИ */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #e0e0e0;
+  flex-wrap: wrap;
+}
+.tab {
+  padding: 12px 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  color: #7f8c8d;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s;
+  margin-bottom: -2px;
+}
+.tab.active {
+  color: #667eea;
+  border-bottom-color: #667eea;
+}
+.tab:hover { color: #667eea; }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeIn 0.3s; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ФОРМЫ */
+.factor-section {
+  margin-bottom: 28px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border-left: 4px solid #667eea;
+}
+.factor-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e3c72;
+  margin-bottom: 6px;
+}
+.factor-desc {
+  font-size: 13px;
+  color: #7f8c8d;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+.form-group { display: flex; flex-direction: column; }
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #2c3e50;
+}
+.form-group .hint {
+  font-size: 12px;
+  color: #7f8c8d;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+.form-group input, .form-group select {
+  padding: 10px 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.3s;
+  font-family: inherit;
+}
+.form-group input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+.form-group input.error { border-color: #e74c3c; background: #fdf0ef; }
+
+/* КНОПКИ */
+.btn {
+  padding: 13px 28px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+}
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+.btn-secondary {
+  background: #ecf0f1;
+  color: #2c3e50;
+}
+.btn-secondary:hover { background: #d5dbdb; }
+.btn-success {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+}
+.btn-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+/* РЕЗУЛЬТАТ */
+.result-header {
+  text-align: center;
+  padding: 30px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 16px;
+  margin-bottom: 25px;
+}
+.ssi-score {
+  font-size: 72px;
+  font-weight: 800;
+  line-height: 1;
+  margin: 15px 0;
+}
+.ssi-label {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.ssi-interpretation {
+  font-size: 16px;
+  opacity: 0.95;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* ЛИЛИЯ SVG */
+.lily-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 0;
+}
+.lily-svg { max-width: 500px; width: 100%; height: auto; }
+
+/* ПРОФИЛЬ ФАКТОРОВ */
+.factor-profile {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+.factor-card {
+  padding: 18px;
+  border-radius: 12px;
+  background: #f8f9fa;
+  border-left: 4px solid #667eea;
+}
+.factor-card.strong { border-left-color: #27ae60; background: #eafaf1; }
+.factor-card.medium { border-left-color: #f39c12; background: #fef9e7; }
+.factor-card.weak { border-left-color: #e74c3c; background: #fdf0ef; }
+.factor-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.factor-card-name { font-weight: 700; font-size: 15px; }
+.factor-card-score {
+  font-weight: 700;
+  font-size: 18px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: white;
+}
+.factor-card-desc { font-size: 13px; color: #555; line-height: 1.5; }
+
+/* ШКАЛА */
+.scale-bar {
+  height: 12px;
+  background: linear-gradient(to right, #e74c3c 0%, #f39c12 35%, #f1c40f 50%, #27ae60 75%, #16a085 100%);
+  border-radius: 6px;
+  position: relative;
+  margin: 15px 0;
+}
+.scale-marker {
+  position: absolute;
+  top: -6px;
+  width: 24px;
+  height: 24px;
+  background: white;
+  border: 3px solid #2c3e50;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  transition: left 0.5s;
+}
+
+/* РЕКОМЕНДАЦИИ */
+.recommendations {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+}
+.recommendations h3 {
+  color: #1e3c72;
+  margin-bottom: 12px;
+  font-size: 17px;
+}
+.rec-item {
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  background: white;
+  border-radius: 8px;
+  border-left: 3px solid #667eea;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* УВЕДОМЛЕНИЕ */
+.notif {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 16px 30px;
+  border-radius: 50px;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  animation: notifSlide 0.4s ease-out;
+}
+@keyframes notifSlide {
+  from { transform: translate(-50%, -30px); opacity: 0; }
+  to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+/* МЕИ */
+.mei-block {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+.mei-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-top: 15px;
+}
+.mei-item {
+  background: rgba(255,255,255,0.2);
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+}
+.mei-item-label { font-size: 12px; opacity: 0.9; }
+.mei-item-value { font-size: 20px; font-weight: 700; margin-top: 4px; }
+
+/* ПЕЧАТЬ */
+@media print {
+  .header, .paste-hint, .btn-row, .tabs { display: none !important; }
+  .card { box-shadow: none; border: 1px solid #ddd; }
+  body { background: white; }
+}
+
+/* АДАПТИВ */
+@media (max-width: 768px) {
+  .header { flex-direction: column; text-align: center; }
+  .header-logo { min-width: auto; width: 100%; }
+  .form-row { grid-template-columns: 1fr; }
+  .ssi-score { font-size: 56px; }
+  .header-title { font-size: 20px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-logo">
+    <!-- ЗАМЕНИТЕ src НА ПУТЬ К ЛОГОТИПУ ТЕХНОПАРКА -->
+    <img src="technopark.png" alt="Технопарк СКФУ" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#1e3c72; font-weight:700; font-size:14px;\'>ТЕХНОПАРК<br>СКФУ</div>'">
+  </div>
+  <div class="header-content">
+    <div class="header-title">Калькулятор индекса SSI бизнес-идеи (стартапа)</div>
+    <div class="header-subtitle">Технопарк СКФУ 2026 · v.2.0 · TRUSEK-6 Framework</div>
+    <div class="header-authors">Мандрица И.В., Кузьменко В.В.</div>
+  </div>
+  <div class="header-logo">
+    <!-- ЗАМЕНИТЕ src НА ПУТЬ К ЛОГОТИПУ СКФУ -->
+    <img src="skfu.png" alt="СКФУ" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#1e3c72; font-weight:700; font-size:14px;\'>СКФУ<br>Северо-Кавказский<br>федеральный университет</div>'">
+  </div>
+</div>
+
+<!-- ПЛАШКА УМНОЙ ВСТАВКИ -->
+<div class="paste-hint" onclick="pasteFromClipboard()">
+  📋 Скопируйте JSON из Qwen/Claude и нажмите <kbd>Ctrl+V</kbd> — лилия построится сама
+</div>
+
+<!-- ВКЛАДКИ -->
+<div class="card">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('anketa')"> Анкета стартапера</button>
+    <button class="tab" onclick="switchTab('expert')"> Режим эксперта</button>
+    <button class="tab" onclick="switchTab('result')"> Результат</button>
+  </div>
+
+  <!-- ВКЛАДКА АНКЕТЫ -->
+  <div id="anketa" class="tab-content active">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Название стартапа</label>
+        <input type="text" id="name" placeholder="Например: Козий Бульдог">
+      </div>
+      <div class="form-group">
+        <label>Ваше ФИО</label>
+        <input type="text" id="author" placeholder="Иванов Иван Иванович">
+      </div>
+    </div>
+
+    <!-- U -->
+    <div class="factor-section">
+      <div class="factor-title">U · Утилитарность · вес 0.15</div>
+      <div class="factor-desc">Насколько клиент зависит от вашего продукта? Чем больнее ему без вас — тем выше показатель.</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>U₁ — Стоимость альтернативы (руб.)</label>
+          <div class="hint">Конкурент 300 руб., вы 127 руб. → клиент экономит 173 руб. → введите 173</div>
+          <input type="number" id="u1" placeholder="173">
+        </div>
+        <div class="form-group">
+          <label>U₂ — Эпизодов потребности в год</label>
+          <div class="hint">Раз в год = 1 · Раз в месяц = 12 · Раз в неделю = 52 · Каждый день = 365</div>
+          <input type="number" id="u2" placeholder="26">
+        </div>
+      </div>
+    </div>
+
+    <!-- E -->
+    <div class="factor-section">
+      <div class="factor-title">E · Эмоция · вес 0.20</div>
+      <div class="factor-desc">Насколько клиент эмоционально привязывается к продукту? Готовность платить премию и рассказывать друзьям.</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>E₁ — Минут контакта за сессию</label>
+          <div class="hint">Приложение: время в приложении · Консервы: готовка + еда · Платформа: время на сайте</div>
+          <input type="number" id="e1" placeholder="20">
+        </div>
+        <div class="form-group">
+          <label>E₂ — Ваша цена / цена конкурента</label>
+          <div class="hint">127/300 = 0.42 (дешевле) · 200/150 = 1.33 (дороже)</div>
+          <input type="number" id="e2" step="0.01" placeholder="0.42">
+        </div>
+      </div>
+    </div>
+
+    <!-- R -->
+    <div class="factor-section">
+      <div class="factor-title">R · Повторяемость · вес 0.15</div>
+      <div class="factor-desc">Как часто клиент возвращается? Бизнес на одноразовых продажах всегда зависит от рекламы.</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>R₁ — Покупок в год (один клиент)</label>
+          <div class="hint">Консервы: 6 · Подписка: 12 · Одежда: 2–3 · Дизайн-проект: 0.2</div>
+          <input type="number" id="r1" placeholder="6">
+        </div>
+        <div class="form-group">
+          <label>R₂ — LTV / CAC (коэффициент)</label>
+          <div class="hint">LTV 15000, CAC 3000 → 5.0 · Норма: больше 3 · Не знаете CAC → введите 3</div>
+          <input type="number" id="r2" step="0.01" placeholder="4.75">
+        </div>
+      </div>
+    </div>
+
+    <!-- K -->
+    <div class="factor-section">
+      <div class="factor-title">K · Капитал · вес 0.15</div>
+      <div class="factor-desc">Стартовые вложения и маржа. Чем меньше нужно вложить и чем больше остаётся — тем лучше.</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>K₁ — CAPEX (тыс. руб.)</label>
+          <div class="hint">До 300 тыс. = отлично · 300–1000 = норма · 1–5 млн = тяжело · Более 5 млн = красная зона</div>
+          <input type="number" id="k1" placeholder="490">
+        </div>
+        <div class="form-group">
+          <label>K₂ — Маржинальность (%)</label>
+          <div class="hint">Цена 127, себестоимость 95 → (127−95)/127×100 = 25% · IT: 60–80% · Консервы: 20–30%</div>
+          <input type="number" id="k2" placeholder="25">
+        </div>
+      </div>
+    </div>
+
+    <!-- T -->
+    <div class="factor-section">
+      <div class="factor-title">T · Время · вес 0.20</div>
+      <div class="factor-desc">Скорость выхода в плюс. Каждый месяц до прибыли — это чужие деньги или ваши нервы.</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>T₁ — Мес. до EBITDA+</label>
+          <div class="hint">До 6 мес. = отлично · 6–12 = хорошо · 12–24 = приемлемо · Более 24 = рискованно</div>
+          <input type="number" id="t1" placeholder="3">
+        </div>
+        <div class="form-group">
+          <label>T₂ — Мес. до окупаемости</label>
+          <div class="hint">Вложили 490 тыс., прибыль 32 тыс./мес → 490/32 = 15 мес. · До 12 = отлично · 36+ = стоп</div>
+          <input type="number" id="t2" placeholder="16">
+        </div>
+      </div>
+    </div>
+
+    <!-- S -->
+    <div class="factor-section">
+      <div class="factor-title">S · Социальный · вес 0.15</div>
+      <div class="factor-desc">Сарафанное радио — бесплатный отдел продаж. Если каждый клиент приводит нового — бизнес растёт сам.</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>S₁ — Доля по рекомендации (%)</label>
+          <div class="hint">Из 100 новых клиентов — сколько пришли по рекомендации? Не знаете → 0</div>
+          <input type="number" id="s1" placeholder="5">
+        </div>
+        <div class="form-group">
+          <label>S₂ — NPS (−100 до +100)</label>
+          <div class="hint">60% ставят 9-10, 10% ставят 1-6 → NPS = 50 · Нет данных → 0</div>
+          <input type="number" id="s2" placeholder="30">
+        </div>
+      </div>
+    </div>
+
+    <!-- РЫНОК -->
+    <div class="factor-section" style="border-left-color: #f39c12;">
+      <div class="factor-title">М · Рынок · TAM / SAM / SOM / TAV (млн руб.)</div>
+      <div class="factor-desc">Даже идеальная идея провалится, если рынок слишком мал. Укажите суммы в миллионах рублей в год.</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>TAM — Весь рынок России</label>
+          <div class="hint">Все, кто в принципе мог бы купить</div>
+          <input type="number" id="tam" placeholder="15000">
+        </div>
+        <div class="form-group">
+          <label>SAM — Достижимый рынок</label>
+          <div class="hint">Ваш регион + ваши каналы продаж</div>
+          <input type="number" id="sam" placeholder="450">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>SOM — Реальный захват за 3 года</label>
+          <div class="hint">Реалистичный прогноз выручки</div>
+          <input type="number" id="som" placeholder="18">
+        </div>
+        <div class="form-group">
+          <label>TAV — Порог автономии</label>
+          <div class="hint">OPEX × 12 ÷ маржа (минимум для самоокупаемости)</div>
+          <input type="number" id="tav" placeholder="4.5">
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="calculateSSI()">🌸 Посмотреть результат →</button>
+      <button class="btn btn-secondary" onclick="saveJSON()"> Сохранить анкету</button>
+      <label class="btn btn-secondary" style="cursor:pointer;">
+        ⬆ Загрузить JSON
+        <input type="file" id="jsonUpload" accept=".json" style="display:none" onchange="loadJSON(event)">
+      </label>
+    </div>
+  </div>
+
+  <!-- ВКЛАДКА ЭКСПЕРТА -->
+  <div id="expert" class="tab-content">
+    <p style="margin-bottom:20px; color:#7f8c8d;">Режим эксперта: те же поля, но с отображением весов и возможностью корректировки нормализации. Заполните анкету на вкладке «Анкета стартапера» — данные синхронизируются автоматически.</p>
+    <div id="expertFields"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="calculateSSI()">🌸 Рассчитать SSI</button>
+      <button class="btn btn-secondary" onclick="saveJSON()"> Сохранить анкету</button>
+    </div>
+  </div>
+
+  <!-- ВКЛАДКА РЕЗУЛЬТАТА -->
+  <div id="result" class="tab-content">
+    <div class="result-header">
+      <div class="ssi-label">Self-Sufficiency Index</div>
+      <div class="ssi-score" id="ssiScore">—</div>
+      <div class="ssi-interpretation" id="ssiInterpretation">Заполните анкету и нажмите «Посмотреть результат»</div>
+    </div>
+
+    <div class="lily-container">
+      <svg class="lily-svg" id="lilySvg" viewBox="0 0 500 500"></svg>
+    </div>
+
+    <div class="scale-bar">
+      <div class="scale-marker" id="scaleMarker" style="left: 0%;"></div>
+    </div>
+    <div style="display:flex; justify-content:space-between; font-size:12px; color:#7f8c8d; margin-top:5px;">
+      <span>0</span><span>3.5</span><span>5</span><span>6.5</span><span>7.5</span><span>8.5</span><span>10</span>
+    </div>
+
+    <div class="factor-profile" id="factorProfile"></div>
+
+    <div class="mei-block">
+      <h3 style="margin-bottom:10px;"> Рыночный модификатор MEI</h3>
+      <div class="mei-grid">
+        <div class="mei-item"><div class="mei-item-label">TAM</div><div class="mei-item-value" id="meiTam">—</div></div>
+        <div class="mei-item"><div class="mei-item-label">SAM</div><div class="mei-item-value" id="meiSam">—</div></div>
+        <div class="mei-item"><div class="mei-item-label">SOM</div><div class="mei-item-value" id="meiSom">—</div></div>
+        <div class="mei-item"><div class="mei-item-label">TAV</div><div class="mei-item-value" id="meiTav">—</div></div>
+        <div class="mei-item"><div class="mei-item-label">MEI</div><div class="mei-item-value" id="meiValue">—</div></div>
+      </div>
+    </div>
+
+    <div class="recommendations" id="recommendations">
+      <h3>🎯 Рекомендации алгоритма</h3>
+      <div id="recList"></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="window.print()">🖨 Распечатать</button>
+      <button class="btn btn-secondary" onclick="saveJSON()">⬇ Сохранить анкету</button>
+      <button class="btn btn-secondary" onclick="switchTab('anketa')">← Изменить ответы</button>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center; padding:20px; color:#7f8c8d; font-size:13px;">
+  SSI · TRUSEK-6 Framework + MEI · Инструмент прединвестиционной оценки бизнес-идей<br>
+  © 2025–2026 Технопарк СКФУ · Мандрица И.В., Кузьменко В.В.
+</div>
+
+</div>
+
+<script>
+// ============================================
+// ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК
+// ============================================
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  const tabs = { 'anketa': 0, 'expert': 1, 'result': 2 };
+  document.querySelectorAll('.tab')[tabs[name]].classList.add('active');
+  document.getElementById(name).classList.add('active');
+  if (name === 'expert') renderExpertFields();
+}
+
+// ============================================
+// НОРМАЛИЗАЦИЯ ПОДФАКТОРОВ К ШКАЛЕ 0-10
+// ============================================
+function norm(val, min, max, invert=false) {
+  if (isNaN(val) || val === null || val === undefined) return 0;
+  let v = (val - min) / (max - min) * 10;
+  if (invert) v = 10 - v;
+  return Math.max(0, Math.min(10, v));
+}
+
+function calcSubfactors() {
+  const v = id => parseFloat(document.getElementById(id).value) || 0;
+  return {
+    U: Math.min(10, Math.max(0, norm(v('u1'), 0, 300000) * 0.5 + norm(v('u2'), 1, 52) * 0.5)),
+    E: Math.min(10, Math.max(0, norm(v('e1'), 0, 60) * 0.5 + norm(v('e2'), 0, 2) * 0.5)),
+    R: Math.min(10, Math.max(0, norm(v('r1'), 0, 52) * 0.5 + norm(v('r2'), 0, 10) * 0.5)),
+    K: Math.min(10, Math.max(0, norm(v('k1'), 0, 5000, true) * 0.5 + norm(v('k2'), 0, 80) * 0.5)),
+    T: Math.min(10, Math.max(0, norm(v('t1'), 1, 36, true) * 0.5 + norm(v('t2'), 1, 60, true) * 0.5)),
+    S: Math.min(10, Math.max(0, norm(v('s1'), 0, 100) * 0.5 + norm(v('s2'), -100, 100) * 0.5))
+  };
+}
+
+// ============================================
+// РАСЧЁТ SSI И MEI
+// ============================================
+function calculateSSI() {
+  const sub = calcSubfactors();
+  const SSI = 0.15*sub.U + 0.20*sub.E + 0.15*sub.R + 0.15*sub.K + 0.20*sub.T + 0.15*sub.S;
+  
+  const v = id => parseFloat(document.getElementById(id).value) || 0;
+  const tam = v('tam'), sam = v('sam'), som = v('som'), tav = v('tav');
+  let MEI = 1.0;
+  if (tam > 0 && tav > 0) {
+    const share = som / tav;
+    const access = sam / tam;
+    MEI = Math.max(0.3, Math.min(1.5, share * 0.6 + access * 0.4));
+  }
+  const finalSSI = Math.min(10, SSI * MEI);
+
+  // Отображение
+  document.getElementById('ssiScore').textContent = finalSSI.toFixed(2);
+  
+  let interp = '';
+  if (finalSSI >= 8.5) interp = '🌸 ЛИЛИЯ РАСЦВЕЛА — Мощный самодвижок. Все системы работают. Инвестиции — да.';
+  else if (finalSSI >= 7.5) interp = '🌿 РАСКРЫВАЕТСЯ — Самодостаточна, но есть 1–2 слабых места. Инвестиции — с мониторингом.';
+  else if (finalSSI >= 6.5) interp = '🌱 ЧАСТИЧНО — Потенциал есть, но раскрывается неравномерно. Доработка перед финансированием.';
+  else if (finalSSI >= 5.0) interp = '🥀 БУТОН СЛАБЫЙ — Частичная самодостаточность. Условное финансирование с устранением слабостей.';
+  else if (finalSSI >= 3.5) interp = '🌑 НЕ РАСКРЫЛАСЬ — Системные слабости. Пересмотр бизнес-модели или Customer Discovery.';
+  else interp = '💀 КРИТИЧЕСКИ — Внутренний самодвижок отсутствует. Вернуться к чертёжной доске.';
+  
+  document.getElementById('ssiInterpretation').textContent = interp;
+  
+  // Маркер на шкале
+  document.getElementById('scaleMarker').style.left = (finalSSI / 10 * 100) + '%';
+  
+  // MEI
+  document.getElementById('meiTam').textContent = tam ? tam + ' млн' : '—';
+  document.getElementById('meiSam').textContent = sam ? sam + ' млн' : '—';
+  document.getElementById('meiSom').textContent = som ? som + ' млн' : '—';
+  document.getElementById('meiTav').textContent = tav ? tav + ' млн' : '—';
+  document.getElementById('meiValue').textContent = MEI.toFixed(2);
+  
+  // Профиль факторов
+  renderFactorProfile(sub);
+  
+  // Лилия
+  drawLily(sub);
+  
+  // Рекомендации
+  renderRecommendations(sub);
+  
+  // Переключение на результат
+  switchTab('result');
+}
+
+// ============================================
+// ПРОФИЛЬ ФАКТОРОВ
+// ============================================
+function renderFactorProfile(sub) {
+  const factors = [
+    { key: 'U', name: 'Утилитарность', weight: 0.15, desc: 'Зависимость клиента от продукта' },
+    { key: 'E', name: 'Эмоция', weight: 0.20, desc: 'Готовность платить премию и рекомендовать' },
+    { key: 'R', name: 'Повторяемость', weight: 0.15, desc: 'Частота возврата и LTV/CAC' },
+    { key: 'K', name: 'Капитал', weight: 0.15, desc: 'Стартовые вложения и маржа' },
+    { key: 'T', name: 'Время', weight: 0.20, desc: 'Скорость выхода в прибыль' },
+    { key: 'S', name: 'Социальный', weight: 0.15, desc: 'Сарафанное радио и NPS' }
+  ];
+  
+  const container = document.getElementById('factorProfile');
+  container.innerHTML = factors.map(f => {
+    const score = sub[f.key];
+    let cls = 'weak', label = 'Слабо';
+    if (score >= 7) { cls = 'strong'; label = 'Сильно'; }
+    else if (score >= 5) { cls = 'medium'; label = 'Средне'; }
+    return `
+      <div class="factor-card ${cls}">
+        <div class="factor-card-header">
+          <span class="factor-card-name">${f.key} · ${f.name} · ${Math.round(f.weight*100)}%</span>
+          <span class="factor-card-score">${score.toFixed(1)}</span>
+        </div>
+        <div class="factor-card-desc">${f.desc} · ${label}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ============================================
+// РИСОВАНИЕ ЛИЛИИ (SVG)
+// ============================================
+function drawLily(sub) {
+  const svg = document.getElementById('lilySvg');
+  const cx = 250, cy = 250, r = 180;
+  const factors = ['T', 'U', 'R', 'S', 'E', 'K'];
+  const colors = { T: '#9b59b6', U: '#3498db', R: '#e74c3c', S: '#1abc9c', E: '#f39c12', K: '#2ecc71' };
+  const names = { T: 'Время', U: 'Утилитарность', R: 'Повторяемость', S: 'Социальный', E: 'Эмоция', K: 'Капитал' };
+  
+  let svgContent = `<circle cx="${cx}" cy="${cy}" r="${r+20}" fill="#f8f9fa" stroke="#e0e0e0" stroke-width="2"/>`;
+  
+  // Лепестки
+  factors.forEach((f, i) => {
+    const angle = (i * 60 - 90) * Math.PI / 180;
+    const score = sub[f] / 10;
+    const petalR = r * score;
+    const x = cx + Math.cos(angle) * petalR;
+    const y = cy + Math.sin(angle) * petalR;
+    const x2 = cx + Math.cos(angle + 0.3) * petalR * 0.7;
+    const y2 = cy + Math.sin(angle + 0.3) * petalR * 0.7;
+    const x3 = cx + Math.cos(angle - 0.3) * petalR * 0.7;
+    const y3 = cy + Math.sin(angle - 0.3) * petalR * 0.7;
+    
+    svgContent += `<path d="M ${cx} ${cy} Q ${x2} ${y2} ${x} ${y} Q ${x3} ${y3} ${cx} ${cy}" 
+      fill="${colors[f]}" fill-opacity="0.7" stroke="${colors[f]}" stroke-width="2"/>`;
+    
+    // Подпись
+    const lx = cx + Math.cos(angle) * (r + 40);
+    const ly = cy + Math.sin(angle) * (r + 40);
+    svgContent += `<text x="${lx}" y="${ly}" text-anchor="middle" font-size="13" font-weight="700" fill="${colors[f]}">${f} ${sub[f].toFixed(1)}</text>`;
+    svgContent += `<text x="${lx}" y="${ly+15}" text-anchor="middle" font-size="10" fill="#555">${names[f]}</text>`;
+  });
+  
+  // Центр
+  svgContent += `<circle cx="${cx}" cy="${cy}" r="50" fill="white" stroke="#667eea" stroke-width="3"/>`;
+  svgContent += `<text x="${cx}" y="${cy-5}" text-anchor="middle" font-size="14" font-weight="700" fill="#667eea">SSI</text>`;
+  const totalSSI = 0.15*sub.U + 0.20*sub.E + 0.15*sub.R + 0.15*sub.K + 0.20*sub.T + 0.15*sub.S;
+  svgContent += `<text x="${cx}" y="${cy+15}" text-anchor="middle" font-size="18" font-weight="800" fill="#2c3e50">${totalSSI.toFixed(1)}</text>`;
+  
+  svg.innerHTML = svgContent;
+}
+
+// ============================================
+// РЕКОМЕНДАЦИИ
+// ============================================
+function renderRecommendations(sub) {
+  const recs = [];
+  const items = [
+    { key: 'U', name: 'Утилитарность', weak: 'Усильте боль клиента: найдите нишу, где без вас дороже/дольше', medium: 'Добавьте интеграции, чтобы клиенту было сложнее уйти' },
+    { key: 'E', name: 'Эмоция', weak: 'Добавьте «вау-эффект»: дизайн, упаковку, персонализацию', medium: 'Запустите реферальную программу с бонусами' },
+    { key: 'R', name: 'Повторяемость', weak: 'Перейдите на подписку или расходники', medium: 'Внедрите loyalty-программу и триггерные напоминания' },
+    { key: 'K', name: 'Капитал', weak: 'Снизьте CAPEX: аутсорс, аренда, MVP без оборудования', medium: 'Оптимизируйте себестоимость через объём' },
+    { key: 'T', name: 'Время', weak: 'Запустите MVP за 1 месяц, не ждите идеала', medium: 'Ускорьте первые продажи через предзаказы' },
+    { key: 'S', name: 'Социальный', weak: 'Запустите NPS-опросы и работайте с критиками', medium: 'Внедрите механику «приведи друга»' }
+  ];
+  
+  items.forEach(it => {
+    const score = sub[it.key];
+    if (score < 5) recs.push(`⚠️ <b>${it.name}</b> (${score.toFixed(1)}) — ${it.weak}`);
+    else if (score < 7) recs.push(` <b>${it.name}</b> (${score.toFixed(1)}) — ${it.medium}`);
+  });
+  
+  document.getElementById('recList').innerHTML = recs.length 
+    ? recs.map(r => `<div class="rec-item">${r}</div>`).join('')
+    : '<div class="rec-item">✅ Все факторы на сильном уровне. Масштабируйтесь!</div>';
+}
+
+// ============================================
+// РЕЖИМ ЭКСПЕРТА
+// ============================================
+function renderExpertFields() {
+  const container = document.getElementById('expertFields');
+  const fields = [
+    { id: 'u1', label: 'U₁ Стоимость альтернативы (руб.)', weight: 0.15 },
+    { id: 'u2', label: 'U₂ Эпизодов в год', weight: 0.15 },
+    { id: 'e1', label: 'E₁ Минут контакта', weight: 0.20 },
+    { id: 'e2', label: 'E₂ Цена/конкурент', weight: 0.20 },
+    { id: 'r1', label: 'R₁ Покупок в год', weight: 0.15 },
+    { id: 'r2', label: 'R₂ LTV/CAC', weight: 0.15 },
+    { id: 'k1', label: 'K₁ CAPEX (тыс. руб.)', weight: 0.15 },
+    { id: 'k2', label: 'K₂ Маржинальность (%)', weight: 0.15 },
+    { id: 't1', label: 'T₁ Мес. до EBITDA+', weight: 0.20 },
+    { id: 't2', label: 'T₂ Мес. до окупаемости', weight: 0.20 },
+    { id: 's1', label: 'S₁ Доля рекомендаций (%)', weight: 0.15 },
+    { id: 's2', label: 'S₂ NPS', weight: 0.15 },
+    { id: 'tam', label: 'TAM (млн руб.)', weight: 0 },
+    { id: 'sam', label: 'SAM (млн руб.)', weight: 0 },
+    { id: 'som', label: 'SOM (млн руб.)', weight: 0 },
+    { id: 'tav', label: 'TAV (млн руб.)', weight: 0 }
+  ];
+  
+  container.innerHTML = '<div class="form-row">' + fields.map(f => {
+    const val = document.getElementById(f.id).value || '';
+    return `<div class="form-group">
+      <label>${f.label} ${f.weight ? '· вес '+f.weight : ''}</label>
+      <input type="number" id="exp_${f.id}" value="${val}" onchange="document.getElementById('${f.id}').value=this.value">
+    </div>`;
+  }).join('') + '</div>';
+}
+
+// ============================================
+// СОХРАНЕНИЕ / ЗАГРУЗКА JSON
+// ============================================
+function saveJSON() {
+  const ids = ['name','author','u1','u2','e1','e2','r1','r2','k1','k2','t1','t2','s1','s2','tam','sam','som','tav'];
+  const data = {};
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    data[id] = el.type === 'number' ? parseFloat(el.value) || 0 : el.value;
+  });
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = (data.name || 'SSI_anketa').replace(/\s+/g, '_') + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showNotif('✅ Анкета сохранена', '#27ae60');
+}
+
+function loadJSON(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      fillFormFromJSON(data);
+      showNotif('✅ Анкета загружена', '#27ae60');
+    } catch (err) {
+      showNotif('❌ Ошибка чтения JSON', '#e74c3c');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function fillFormFromJSON(data) {
+  const ids = ['name','author','u1','u2','e1','e2','r1','r2','k1','k2','t1','t2','s1','s2','tam','sam','som','tav'];
+  ids.forEach(id => {
+    if (data[id] !== undefined) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.value = data[id];
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    }
+  });
+}
+
+// ============================================
+// УМНАЯ ВСТАВКА Ctrl+V
+// ============================================
+document.addEventListener('paste', function(event) {
+  const activeEl = document.activeElement;
+  if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA')) {
+    const text = (event.clipboardData || window.clipboardData).getData('text');
+    if (!looksLikeSSIJson(text)) return;
+  }
+  const text = (event.clipboardData || window.clipboardData).getData('text');
+  if (!looksLikeSSIJson(text)) return;
+  
+  event.preventDefault();
+  try {
+    const data = JSON.parse(text);
+    fillFormFromJSON(data);
+    showNotif('✅ Анкета заполнена! Переход к результату...', '#27ae60');
+    setTimeout(() => { calculateSSI(); }, 800);
+  } catch (e) {
+    showNotif('❌ Ошибка чтения JSON', '#e74c3c');
+  }
+});
+
+function looksLikeSSIJson(text) {
+  if (!text || typeof text !== 'string') return false;
+  text = text.trim();
+  if (!text.startsWith('{') || !text.endsWith('}')) return false;
+  return ['"u1"', '"u2"', '"name"'].filter(m => text.toLowerCase().includes(m)).length >= 2;
+}
+
+async function pasteFromClipboard() {
+  try {
+    const text = await navigator.clipboard.readText();
+    if (looksLikeSSIJson(text)) {
+      fillFormFromJSON(JSON.parse(text));
+      showNotif('✅ Заполнено из буфера!', '#27ae60');
+      setTimeout(() => calculateSSI(), 800);
+    } else {
+      showNotif('⚠️ В буфере нет JSON. Нажмите Ctrl+V вручную.', '#f39c12');
+    }
+  } catch (e) {
+    showNotif('️ Браузер блокирует авто-чтение. Используйте Ctrl+V.', '#f39c12');
+  }
+}
+
+function showNotif(msg, color) {
+  const old = document.getElementById('notif');
+  if (old) old.remove();
+  const notif = document.createElement('div');
+  notif.id = 'notif';
+  notif.className = 'notif';
+  notif.textContent = msg;
+  notif.style.background = color;
+  document.body.appendChild(notif);
+  setTimeout(() => {
+    notif.style.opacity = '0';
+    notif.style.transition = 'opacity 0.5s';
+    setTimeout(() => notif.remove(), 500);
+  }, 3000);
+}
+</script>
+</body>
+</html>
