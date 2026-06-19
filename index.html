@@ -94,6 +94,133 @@ body {
   font-size: 14px;
 }
 
+/* МУЛЬТИ-ЗАГРУЗЧИК */
+.multi-upload {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 20px;
+  color: white;
+  box-shadow: 0 8px 32px rgba(17, 153, 142, 0.3);
+}
+.multi-upload h3 { margin: 0 0 8px 0; font-size: 20px; }
+.multi-upload .mu-desc {
+  font-size: 14px;
+  opacity: 0.95;
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+.drop-zone {
+  background: rgba(255,255,255,0.15);
+  border: 3px dashed rgba(255,255,255,0.6);
+  border-radius: 12px;
+  padding: 30px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.drop-zone:hover, .drop-zone.dragover {
+  background: rgba(255,255,255,0.25);
+  border-color: white;
+  transform: scale(1.01);
+}
+.drop-zone-icon { font-size: 42px; margin-bottom: 8px; }
+.drop-zone-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+.drop-zone-sub { font-size: 12px; opacity: 0.9; }
+.uploaded-files { margin-top: 15px; }
+.file-item {
+  background: rgba(255,255,255,0.2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+.file-icon { font-size: 22px; width: 30px; text-align: center; }
+.file-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.file-size { opacity: 0.85; font-size: 12px; }
+.file-remove {
+  background: rgba(255,100,100,0.4);
+  border: none;
+  color: white;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+}
+.file-remove:hover { background: rgba(255,100,100,0.7); }
+.mu-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+.mu-btn {
+  background: white;
+  color: #11998e;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  flex: 1;
+  min-width: 180px;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+.mu-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+.mu-btn.secondary {
+  background: rgba(255,255,255,0.2);
+  color: white;
+  border: 2px solid white;
+}
+.mu-progress {
+  margin-top: 15px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 8px;
+  padding: 15px;
+  display: none;
+}
+.mu-progress.active { display: block; }
+.mu-progress-bar {
+  background: rgba(255,255,255,0.3);
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+.mu-progress-fill {
+  background: white;
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s;
+}
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
 /* КАРТОЧКИ */
 .card {
   background: white;
@@ -123,12 +250,8 @@ body {
   transition: all 0.3s;
   margin-bottom: -2px;
 }
-.tab.active {
-  color: #667eea;
-  border-bottom-color: #667eea;
-}
+.tab.active { color: #667eea; border-bottom-color: #667eea; }
 .tab:hover { color: #667eea; }
-
 .tab-content { display: none; }
 .tab-content.active { display: block; animation: fadeIn 0.3s; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -180,11 +303,7 @@ body {
   transition: border-color 0.3s;
   font-family: inherit;
 }
-.form-group input:focus {
-  outline: none;
-  border-color: #667eea;
-}
-.form-group input.error { border-color: #e74c3c; background: #fdf0ef; }
+.form-group input:focus { outline: none; border-color: #667eea; }
 
 /* КНОПКИ */
 .btn {
@@ -208,15 +327,8 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
-.btn-secondary {
-  background: #ecf0f1;
-  color: #2c3e50;
-}
+.btn-secondary { background: #ecf0f1; color: #2c3e50; }
 .btn-secondary:hover { background: #d5dbdb; }
-.btn-success {
-  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-  color: white;
-}
 .btn-row {
   display: flex;
   gap: 12px;
@@ -239,11 +351,7 @@ body {
   line-height: 1;
   margin: 15px 0;
 }
-.ssi-label {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
+.ssi-label { font-size: 20px; font-weight: 600; margin-bottom: 10px; }
 .ssi-interpretation {
   font-size: 16px;
   opacity: 0.95;
@@ -313,6 +421,76 @@ body {
   transition: left 0.5s;
 }
 
+/* ИНТЕРПРЕТАЦИЯ ЛЕПЕСТКОВ */
+.petal-interp {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+}
+.petal-interp h3 {
+  color: #1e3c72;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+.petal-item {
+  padding: 15px;
+  background: white;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  border-left: 4px solid #667eea;
+}
+.petal-item h4 {
+  color: #1e3c72;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+.petal-item .measure {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+.petal-levels {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  font-size: 12px;
+}
+.petal-level {
+  padding: 8px;
+  border-radius: 6px;
+}
+.petal-level.strong { background: #eafaf1; color: #1e8449; }
+.petal-level.medium { background: #fef9e7; color: #b7950b; }
+.petal-level.weak { background: #fdf0ef; color: #922b21; }
+
+/* ШКАЛА ИНТЕРПРЕТАЦИИ */
+.scale-interp {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+}
+.scale-interp h3 { margin-bottom: 15px; }
+.scale-level {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+.scale-range {
+  font-weight: 700;
+  min-width: 80px;
+  font-size: 14px;
+}
+.scale-emoji { font-size: 24px; }
+.scale-text { flex: 1; font-size: 13px; }
+
 /* РЕКОМЕНДАЦИИ */
 .recommendations {
   background: #f8f9fa;
@@ -333,26 +511,6 @@ body {
   border-left: 3px solid #667eea;
   font-size: 14px;
   line-height: 1.5;
-}
-
-/* УВЕДОМЛЕНИЕ */
-.notif {
-  position: fixed;
-  top: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9999;
-  padding: 16px 30px;
-  border-radius: 50px;
-  color: white;
-  font-weight: 600;
-  font-size: 15px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-  animation: notifSlide 0.4s ease-out;
-}
-@keyframes notifSlide {
-  from { transform: translate(-50%, -30px); opacity: 0; }
-  to { transform: translate(-50%, 0); opacity: 1; }
 }
 
 /* МЕИ */
@@ -378,9 +536,29 @@ body {
 .mei-item-label { font-size: 12px; opacity: 0.9; }
 .mei-item-value { font-size: 20px; font-weight: 700; margin-top: 4px; }
 
+/* УВЕДОМЛЕНИЕ */
+.notif {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 16px 30px;
+  border-radius: 50px;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  animation: notifSlide 0.4s ease-out;
+}
+@keyframes notifSlide {
+  from { transform: translate(-50%, -30px); opacity: 0; }
+  to { transform: translate(-50%, 0); opacity: 1; }
+}
+
 /* ПЕЧАТЬ */
 @media print {
-  .header, .paste-hint, .btn-row, .tabs { display: none !important; }
+  .header, .paste-hint, .multi-upload, .btn-row, .tabs { display: none !important; }
   .card { box-shadow: none; border: 1px solid #ddd; }
   body { background: white; }
 }
@@ -392,6 +570,7 @@ body {
   .form-row { grid-template-columns: 1fr; }
   .ssi-score { font-size: 56px; }
   .header-title { font-size: 20px; }
+  .petal-levels { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -401,8 +580,7 @@ body {
 <!-- HEADER -->
 <div class="header">
   <div class="header-logo">
-    <!-- ЗАМЕНИТЕ src НА ПУТЬ К ЛОГОТИПУ ТЕХНОПАРКА -->
-    <img src="technopark.png" alt="Технопарк СКФУ" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#1e3c72; font-weight:700; font-size:14px;\'>ТЕХНОПАРК<br>СКФУ</div>'">
+    <img src="technopark.png" alt="Технопарк СКФУ" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#1e3c72; font-weight:700; font-size:14px; text-align:center;\'>ТЕХНОПАРК<br>СКФУ</div>'">
   </div>
   <div class="header-content">
     <div class="header-title">Калькулятор индекса SSI бизнес-идеи (стартапа)</div>
@@ -410,8 +588,7 @@ body {
     <div class="header-authors">Мандрица И.В., Кузьменко В.В.</div>
   </div>
   <div class="header-logo">
-    <!-- ЗАМЕНИТЕ src НА ПУТЬ К ЛОГОТИПУ СКФУ -->
-    <img src="skfu.png" alt="СКФУ" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#1e3c72; font-weight:700; font-size:14px;\'>СКФУ<br>Северо-Кавказский<br>федеральный университет</div>'">
+    <img src="skfu.png" alt="СКФУ" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#1e3c72; font-weight:700; font-size:13px; text-align:center;\'>СКФУ<br>Северо-Кавказский<br>федеральный университет</div>'">
   </div>
 </div>
 
@@ -420,12 +597,44 @@ body {
   📋 Скопируйте JSON из Qwen/Claude и нажмите <kbd>Ctrl+V</kbd> — лилия построится сама
 </div>
 
-<!-- ВКЛАДКИ -->
+<!-- МУЛЬТИ-ЗАГРУЗЧИК -->
+<div class="multi-upload">
+  <h3>📦 Загрузите все файлы проекта</h3>
+  <div class="mu-desc">
+    Бизнес-план (DOCX), смета (XLSX), анализ рынка (PDF), презентация (PPTX), логотип (PNG/JPG) — AI извлечёт данные и создаст JSON-анкету автоматически
+  </div>
+  
+  <div class="drop-zone" id="dropZone" onclick="document.getElementById('multiFileInput').click()">
+    <div class="drop-zone-icon">📁</div>
+    <div class="drop-zone-title">Перетащите файлы сюда или кликните для выбора</div>
+    <div class="drop-zone-sub">DOCX, PDF, XLSX, PPTX, PNG, JPG · до 10 файлов · макс. 20 МБ</div>
+    <input type="file" id="multiFileInput" multiple accept=".docx,.pdf,.xlsx,.xls,.pptx,.png,.jpg,.jpeg" style="display:none" onchange="handleMultiFiles(this.files)">
+  </div>
+  
+  <div id="uploadedFilesList" class="uploaded-files"></div>
+  
+  <div id="muProgress" class="mu-progress">
+    <div><span class="spinner"></span><span id="muProgressText">Обработка файлов...</span></div>
+    <div class="mu-progress-bar"><div class="mu-progress-fill" id="muProgressFill"></div></div>
+  </div>
+  
+  <div id="muActions" class="mu-actions" style="display:none;">
+    <button class="mu-btn" onclick="sendFilesToAI('qwen')">🤖 Открыть в Qwen</button>
+    <button class="mu-btn secondary" onclick="sendFilesToAI('claude')">🧠 Открыть в Claude</button>
+    <button class="mu-btn secondary" onclick="extractAllText()">📋 Извлечь текст</button>
+  </div>
+  
+  <div style="margin-top: 15px; padding: 12px; background: rgba(255,255,0,0.15); border-radius: 8px; font-size: 13px;">
+    💡 <strong>Как это работает:</strong> AI проанализирует все файлы → извлечёт финансовые показатели, данные о рынке, конкурентах → создаст готовый JSON → загрузите его в симулятор
+  </div>
+</div>
+
+<!-- ОСНОВНОЙ КОНТЕНТ -->
 <div class="card">
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('anketa')"> Анкета стартапера</button>
-    <button class="tab" onclick="switchTab('expert')"> Режим эксперта</button>
-    <button class="tab" onclick="switchTab('result')"> Результат</button>
+    <button class="tab active" onclick="switchTab('anketa')">📝 Анкета стартапера</button>
+    <button class="tab" onclick="switchTab('expert')">🔬 Режим эксперта</button>
+    <button class="tab" onclick="switchTab('result')">🌸 Результат</button>
   </div>
 
   <!-- ВКЛАДКА АНКЕТЫ -->
@@ -581,7 +790,7 @@ body {
 
     <div class="btn-row">
       <button class="btn btn-primary" onclick="calculateSSI()">🌸 Посмотреть результат →</button>
-      <button class="btn btn-secondary" onclick="saveJSON()"> Сохранить анкету</button>
+      <button class="btn btn-secondary" onclick="saveJSON()">⬇ Сохранить анкету</button>
       <label class="btn btn-secondary" style="cursor:pointer;">
         ⬆ Загрузить JSON
         <input type="file" id="jsonUpload" accept=".json" style="display:none" onchange="loadJSON(event)">
@@ -595,7 +804,7 @@ body {
     <div id="expertFields"></div>
     <div class="btn-row">
       <button class="btn btn-primary" onclick="calculateSSI()">🌸 Рассчитать SSI</button>
-      <button class="btn btn-secondary" onclick="saveJSON()"> Сохранить анкету</button>
+      <button class="btn btn-secondary" onclick="saveJSON()">⬇ Сохранить анкету</button>
     </div>
   </div>
 
@@ -621,7 +830,7 @@ body {
     <div class="factor-profile" id="factorProfile"></div>
 
     <div class="mei-block">
-      <h3 style="margin-bottom:10px;"> Рыночный модификатор MEI</h3>
+      <h3 style="margin-bottom:10px;">📊 Рыночный модификатор MEI</h3>
       <div class="mei-grid">
         <div class="mei-item"><div class="mei-item-label">TAM</div><div class="mei-item-value" id="meiTam">—</div></div>
         <div class="mei-item"><div class="mei-item-label">SAM</div><div class="mei-item-value" id="meiSam">—</div></div>
@@ -631,13 +840,113 @@ body {
       </div>
     </div>
 
+    <!-- ИНТЕРПРЕТАЦИЯ ЛЕПЕСТКОВ -->
+    <div class="petal-interp">
+      <h3>🌸 Интерпретация индекса SSI по лепесткам лилии</h3>
+      
+      <div class="petal-item">
+        <h4>U · Утилитарность · 15%</h4>
+        <div class="measure">Что меряет: насколько сильно клиент зависит от продукта. Чем больнее ему без вас — тем выше.</div>
+        <div class="petal-levels">
+          <div class="petal-level strong"><b>Сильно (≥7):</b> клиент теряет деньги/время без вас → легко продавать</div>
+          <div class="petal-level medium"><b>Средне (5–6):</b> продукт полезен, но есть альтернативы</div>
+          <div class="petal-level weak"><b>Слабо (&lt;5):</b> «nice to have» — клиент обойдётся</div>
+        </div>
+      </div>
+
+      <div class="petal-item">
+        <h4>E · Эмоция · 20%</h4>
+        <div class="measure">Что меряет: готовность клиента платить премию и рассказывать о продукте с восторгом.</div>
+        <div class="petal-levels">
+          <div class="petal-level strong"><b>Сильно (≥7):</b> клиенты постят в соцсетях, платят больше конкурентов</div>
+          <div class="petal-level medium"><b>Средне (5–6):</b> удовлетворены, но не в восторге</div>
+          <div class="petal-level weak"><b>Слабо (&lt;5):</b> продукт функционален, но не вызывает эмоций</div>
+        </div>
+      </div>
+
+      <div class="petal-item">
+        <h4>R · Повторяемость · 15%</h4>
+        <div class="measure">Что меряет: частота возврата клиента и соотношение LTV/CAC.</div>
+        <div class="petal-levels">
+          <div class="petal-level strong"><b>Сильно (≥7):</b> подписка/расходники, LTV/CAC &gt; 3</div>
+          <div class="petal-level medium"><b>Средне (5–6):</b> сезонные покупки, средний retention</div>
+          <div class="petal-level weak"><b>Слабо (&lt;5):</b> разовые сделки, каждый раз новый клиент</div>
+        </div>
+      </div>
+
+      <div class="petal-item">
+        <h4>K · Капитал · 15%</h4>
+        <div class="measure">Что меряет: стартовые вложения (CAPEX) и маржинальность каждой продажи.</div>
+        <div class="petal-levels">
+          <div class="petal-level strong"><b>Сильно (≥7):</b> малый CAPEX, маржа &gt; 40% → быстрый рост</div>
+          <div class="petal-level medium"><b>Средне (5–6):</b> умеренные вложения, маржа 20–40%</div>
+          <div class="petal-level weak"><b>Слабо (&lt;5):</b> высокий CAPEX или низкая маржа → капиталоёмко</div>
+        </div>
+      </div>
+
+      <div class="petal-item">
+        <h4>T · Время · 20%</h4>
+        <div class="measure">Что меряет: скорость выхода в EBITDA+ и окупаемости инвестиций.</div>
+        <div class="petal-levels">
+          <div class="petal-level strong"><b>Сильно (≥7):</b> до 6 мес. до EBITDA, до 12 мес. окупаемость</div>
+          <div class="petal-level medium"><b>Средне (5–6):</b> 6–12 мес. до EBITDA, 12–24 мес. окупаемость</div>
+          <div class="petal-level weak"><b>Слабо (&lt;5):</b> &gt; 24 мес. → риск не дожить до прибыли</div>
+        </div>
+      </div>
+
+      <div class="petal-item">
+        <h4>S · Социальный · 15%</h4>
+        <div class="measure">Что меряет: сила сарафанного радио и готовность клиентов рекомендовать (NPS).</div>
+        <div class="petal-levels">
+          <div class="petal-level strong"><b>Сильно (≥7):</b> &gt;30% приходят по рекомендации, NPS &gt; 50</div>
+          <div class="petal-level medium"><b>Средне (5–6):</b> 10–30% рекомендаций, NPS 0–50</div>
+          <div class="petal-level weak"><b>Слабо (&lt;5):</b> почти нет сарафана, NPS &lt; 0 → платим за каждого клиента</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ШКАЛА ИНТЕРПРЕТАЦИИ -->
+    <div class="scale-interp">
+      <h3>📊 Шкала интерпретации общего индекса SSI</h3>
+      <div class="scale-level">
+        <div class="scale-range">8.5–10</div>
+        <div class="scale-emoji">🌸</div>
+        <div class="scale-text"><b>ЛИЛИЯ РАСЦВЕЛА</b> — Мощный самодвижок. Все системы работают. Инвестиции — да.</div>
+      </div>
+      <div class="scale-level">
+        <div class="scale-range">7.5–8.4</div>
+        <div class="scale-emoji">🌿</div>
+        <div class="scale-text"><b>РАСКРЫВАЕТСЯ</b> — Самодостаточна, но есть 1–2 слабых места. Инвестиции — с мониторингом.</div>
+      </div>
+      <div class="scale-level">
+        <div class="scale-range">6.5–7.4</div>
+        <div class="scale-emoji">🌱</div>
+        <div class="scale-text"><b>ЧАСТИЧНО</b> — Потенциал есть, но раскрывается неравномерно. Доработка перед финансированием.</div>
+      </div>
+      <div class="scale-level">
+        <div class="scale-range">5.0–6.4</div>
+        <div class="scale-emoji">🥀</div>
+        <div class="scale-text"><b>БУТОН СЛАБЫЙ</b> — Частичная самодостаточность. Условное финансирование с устранением слабостей.</div>
+      </div>
+      <div class="scale-level">
+        <div class="scale-range">3.5–4.9</div>
+        <div class="scale-emoji">🌑</div>
+        <div class="scale-text"><b>НЕ РАСКРЫЛАСЬ</b> — Системные слабости. Пересмотр бизнес-модели или Customer Discovery.</div>
+      </div>
+      <div class="scale-level">
+        <div class="scale-range">&lt;3.5</div>
+        <div class="scale-emoji">💀</div>
+        <div class="scale-text"><b>КРИТИЧЕСКИ</b> — Внутренний самодвижок отсутствует. Вернуться к чертёжной доске.</div>
+      </div>
+    </div>
+
     <div class="recommendations" id="recommendations">
-      <h3>🎯 Рекомендации алгоритма</h3>
+      <h3>🎯 Рекомендации алгоритма · приоритетные действия</h3>
       <div id="recList"></div>
     </div>
 
     <div class="btn-row">
-      <button class="btn btn-secondary" onclick="window.print()">🖨 Распечатать</button>
+      <button class="btn btn-secondary" onclick="window.print()">🖨 Распечатать заключение</button>
       <button class="btn btn-secondary" onclick="saveJSON()">⬇ Сохранить анкету</button>
       <button class="btn btn-secondary" onclick="switchTab('anketa')">← Изменить ответы</button>
     </div>
@@ -703,7 +1012,6 @@ function calculateSSI() {
   }
   const finalSSI = Math.min(10, SSI * MEI);
 
-  // Отображение
   document.getElementById('ssiScore').textContent = finalSSI.toFixed(2);
   
   let interp = '';
@@ -715,27 +1023,17 @@ function calculateSSI() {
   else interp = '💀 КРИТИЧЕСКИ — Внутренний самодвижок отсутствует. Вернуться к чертёжной доске.';
   
   document.getElementById('ssiInterpretation').textContent = interp;
-  
-  // Маркер на шкале
   document.getElementById('scaleMarker').style.left = (finalSSI / 10 * 100) + '%';
   
-  // MEI
   document.getElementById('meiTam').textContent = tam ? tam + ' млн' : '—';
   document.getElementById('meiSam').textContent = sam ? sam + ' млн' : '—';
   document.getElementById('meiSom').textContent = som ? som + ' млн' : '—';
   document.getElementById('meiTav').textContent = tav ? tav + ' млн' : '—';
   document.getElementById('meiValue').textContent = MEI.toFixed(2);
   
-  // Профиль факторов
   renderFactorProfile(sub);
-  
-  // Лилия
   drawLily(sub);
-  
-  // Рекомендации
   renderRecommendations(sub);
-  
-  // Переключение на результат
   switchTab('result');
 }
 
@@ -782,7 +1080,6 @@ function drawLily(sub) {
   
   let svgContent = `<circle cx="${cx}" cy="${cy}" r="${r+20}" fill="#f8f9fa" stroke="#e0e0e0" stroke-width="2"/>`;
   
-  // Лепестки
   factors.forEach((f, i) => {
     const angle = (i * 60 - 90) * Math.PI / 180;
     const score = sub[f] / 10;
@@ -797,14 +1094,12 @@ function drawLily(sub) {
     svgContent += `<path d="M ${cx} ${cy} Q ${x2} ${y2} ${x} ${y} Q ${x3} ${y3} ${cx} ${cy}" 
       fill="${colors[f]}" fill-opacity="0.7" stroke="${colors[f]}" stroke-width="2"/>`;
     
-    // Подпись
     const lx = cx + Math.cos(angle) * (r + 40);
     const ly = cy + Math.sin(angle) * (r + 40);
     svgContent += `<text x="${lx}" y="${ly}" text-anchor="middle" font-size="13" font-weight="700" fill="${colors[f]}">${f} ${sub[f].toFixed(1)}</text>`;
     svgContent += `<text x="${lx}" y="${ly+15}" text-anchor="middle" font-size="10" fill="#555">${names[f]}</text>`;
   });
   
-  // Центр
   svgContent += `<circle cx="${cx}" cy="${cy}" r="50" fill="white" stroke="#667eea" stroke-width="3"/>`;
   svgContent += `<text x="${cx}" y="${cy-5}" text-anchor="middle" font-size="14" font-weight="700" fill="#667eea">SSI</text>`;
   const totalSSI = 0.15*sub.U + 0.20*sub.E + 0.15*sub.R + 0.15*sub.K + 0.20*sub.T + 0.15*sub.S;
@@ -830,7 +1125,7 @@ function renderRecommendations(sub) {
   items.forEach(it => {
     const score = sub[it.key];
     if (score < 5) recs.push(`⚠️ <b>${it.name}</b> (${score.toFixed(1)}) — ${it.weak}`);
-    else if (score < 7) recs.push(` <b>${it.name}</b> (${score.toFixed(1)}) — ${it.medium}`);
+    else if (score < 7) recs.push(`🔸 <b>${it.name}</b> (${score.toFixed(1)}) — ${it.medium}`);
   });
   
   document.getElementById('recList').innerHTML = recs.length 
@@ -961,7 +1256,7 @@ async function pasteFromClipboard() {
       showNotif('⚠️ В буфере нет JSON. Нажмите Ctrl+V вручную.', '#f39c12');
     }
   } catch (e) {
-    showNotif('️ Браузер блокирует авто-чтение. Используйте Ctrl+V.', '#f39c12');
+    showNotif('⚠️ Браузер блокирует авто-чтение. Используйте Ctrl+V.', '#f39c12');
   }
 }
 
@@ -979,6 +1274,274 @@ function showNotif(msg, color) {
     notif.style.transition = 'opacity 0.5s';
     setTimeout(() => notif.remove(), 500);
   }, 3000);
+}
+
+// ============================================
+// МУЛЬТИ-ЗАГРУЗЧИК ФАЙЛОВ
+// ============================================
+let uploadedFiles = [];
+
+const dropZone = document.getElementById('dropZone');
+dropZone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dropZone.classList.add('dragover');
+});
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('dragover');
+});
+dropZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  handleMultiFiles(e.dataTransfer.files);
+});
+
+function handleMultiFiles(files) {
+  const maxFiles = 10;
+  const maxSize = 20 * 1024 * 1024;
+  
+  if (uploadedFiles.length + files.length > maxFiles) {
+    showNotif(`⚠️ Можно загрузить максимум ${maxFiles} файлов`, '#f39c12');
+    return;
+  }
+  
+  let totalSize = uploadedFiles.reduce((sum, f) => sum + f.size, 0);
+  
+  for (let file of files) {
+    if (totalSize + file.size > maxSize) {
+      showNotif('⚠️ Общий размер файлов не должен превышать 20 МБ', '#f39c12');
+      return;
+    }
+    
+    const ext = file.name.split('.').pop().toLowerCase();
+    if (['docx','pdf','xlsx','xls','pptx','png','jpg','jpeg'].includes(ext)) {
+      uploadedFiles.push(file);
+      totalSize += file.size;
+    } else {
+      showNotif(`⚠️ Формат ${file.name} не поддерживается`, '#f39c12');
+    }
+  }
+  
+  renderUploadedFiles();
+}
+
+function renderUploadedFiles() {
+  const container = document.getElementById('uploadedFilesList');
+  if (uploadedFiles.length === 0) {
+    container.innerHTML = '';
+    document.getElementById('muActions').style.display = 'none';
+    return;
+  }
+  
+  const icons = { 'docx': '📄', 'pdf': '📕', 'xlsx': '📊', 'xls': '📊', 'pptx': '📽️', 'png': '🖼️', 'jpg': '🖼️', 'jpeg': '🖼️' };
+  
+  let html = '<strong style="font-size: 14px;">📎 Загружено файлов: ' + uploadedFiles.length + '</strong>';
+  
+  uploadedFiles.forEach((file, index) => {
+    const ext = file.name.split('.').pop().toLowerCase();
+    const icon = icons[ext] || '📎';
+    const size = (file.size / 1024).toFixed(1) + ' KB';
+    
+    html += `
+      <div class="file-item">
+        <div class="file-icon">${icon}</div>
+        <div class="file-name" title="${file.name}">${file.name}</div>
+        <div class="file-size">${size}</div>
+        <button class="file-remove" onclick="removeFile(${index})">×</button>
+      </div>
+    `;
+  });
+  
+  container.innerHTML = html;
+  document.getElementById('muActions').style.display = 'flex';
+}
+
+function removeFile(index) {
+  uploadedFiles.splice(index, 1);
+  renderUploadedFiles();
+}
+
+async function extractAllText() {
+  const progress = document.getElementById('muProgress');
+  const progressBar = document.getElementById('muProgressFill');
+  const progressText = document.getElementById('muProgressText');
+  
+  progress.classList.add('active');
+  let allText = '';
+  
+  for (let i = 0; i < uploadedFiles.length; i++) {
+    const file = uploadedFiles[i];
+    const percent = ((i + 1) / uploadedFiles.length * 100).toFixed(0);
+    progressBar.style.width = percent + '%';
+    progressText.textContent = `Обработка ${i + 1} из ${uploadedFiles.length}: ${file.name}`;
+    
+    try {
+      const ext = file.name.split('.').pop().toLowerCase();
+      
+      if (ext === 'docx') {
+        if (!window.mammoth) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js');
+        const arrayBuffer = await file.arrayBuffer();
+        const result = await window.mammoth.extractRawText({ arrayBuffer });
+        allText += `\n\n=== ${file.name} ===\n${result.value}`;
+      } else if (ext === 'pdf') {
+        if (!window.pdfjsLib) {
+          await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
+          window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        let text = '';
+        for (let p = 1; p <= pdf.numPages; p++) {
+          const page = await pdf.getPage(p);
+          const content = await page.getTextContent();
+          text += content.items.map(item => item.str).join(' ') + '\n';
+        }
+        allText += `\n\n=== ${file.name} ===\n${text}`;
+      } else if (ext === 'xlsx' || ext === 'xls') {
+        if (!window.XLSX) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js');
+        const data = await file.arrayBuffer();
+        const workbook = window.XLSX.read(data, { type: 'array' });
+        let text = '';
+        workbook.SheetNames.forEach(sheetName => {
+          text += `\n--- Лист: ${sheetName} ---\n`;
+          const sheet = window.XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 });
+          sheet.forEach(row => { text += row.join('\t') + '\n'; });
+        });
+        allText += `\n\n=== ${file.name} ===\n${text}`;
+      } else if (ext === 'pptx') {
+        if (!window.JSZip) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js');
+        const zip = await window.JSZip.loadAsync(file);
+        let text = '';
+        const slideFiles = Object.keys(zip.files).filter(name => name.match(/ppt\/slides\/slide\d+\.xml$/)).sort();
+        for (const slideFile of slideFiles) {
+          const content = await zip.files[slideFile].async('string');
+          const matches = content.match(/<a:t[^>]*>([^<]*)<\/a:t>/g) || [];
+          text += matches.map(m => m.replace(/<[^>]+>/g, '')).join(' ') + '\n';
+        }
+        allText += `\n\n=== ${file.name} ===\n${text}`;
+      } else if (['png','jpg','jpeg'].includes(ext)) {
+        allText += `\n\n=== ${file.name} ===\n[Изображение: ${file.name}]`;
+      }
+    } catch (error) {
+      console.error(`Ошибка обработки ${file.name}:`, error);
+      allText += `\n\n=== ${file.name} ===\n[Ошибка чтения файла]`;
+    }
+  }
+  
+  progress.classList.remove('active');
+  showExtractedTextModal(allText);
+}
+
+function showExtractedTextModal(text) {
+  const modal = document.createElement('div');
+  modal.style.cssText = `
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7); z-index: 10000;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  `;
+  
+  modal.innerHTML = `
+    <div style="
+      background: white; border-radius: 16px; padding: 30px;
+      max-width: 800px; width: 100%; max-height: 80vh; overflow-y: auto;
+    ">
+      <h3 style="margin: 0 0 15px 0;">📋 Извлечённые данные</h3>
+      <div style="
+        background: #f8f9fa; padding: 15px; border-radius: 8px;
+        font-family: monospace; font-size: 12px; white-space: pre-wrap;
+        max-height: 400px; overflow-y: auto; margin-bottom: 20px;
+      ">${text.substring(0, 5000)}${text.length > 5000 ? '...' : ''}</div>
+      
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button onclick="sendToAIWithText('qwen', this.closest('div').parentElement.previousElementSibling.textContent)" style="
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white; border: none; padding: 12px 24px;
+          border-radius: 8px; font-weight: 600; cursor: pointer;
+          flex: 1; min-width: 150px;
+        ">🤖 Отправить в Qwen</button>
+        
+        <button onclick="navigator.clipboard.writeText(this.closest('div').parentElement.previousElementSibling.textContent); showNotif('✅ Скопировано', '#27ae60')" style="
+          background: #ecf0f1; color: #2c3e50; border: none;
+          padding: 12px 24px; border-radius: 8px; font-weight: 600;
+          cursor: pointer; flex: 1; min-width: 150px;
+        ">📋 Копировать текст</button>
+        
+        <button onclick="this.closest('div[style]').remove()" style="
+          background: #e74c3c; color: white; border: none;
+          padding: 12px 24px; border-radius: 8px; font-weight: 600;
+          cursor: pointer; flex: 1; min-width: 150px;
+        ">✕ Закрыть</button>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+}
+
+function sendFilesToAI(ai) {
+  extractAllText().then(() => {
+    setTimeout(() => {
+      const textArea = document.querySelector('.modal-text-area');
+      if (textArea) sendToAIWithText(ai, textArea.textContent);
+    }, 500);
+  });
+}
+
+function sendToAIWithText(ai, text) {
+  const prompt = `ТЫ — ЭКСПЕРТ ПО SSI (Self-Sufficiency Index)
+
+Проанализируй документы стартапа и заполни JSON-анкету для симулятора SSI.
+
+=== ДОКУМЕНТЫ СТАРТАПА ===
+${text.substring(0, 8000)}
+=== КОНЕЦ ДОКУМЕНТОВ ===
+
+ЗАПОЛНИ JSON СТРОГО ПО ШАБЛОНУ (верни ТОЛЬКО JSON):
+
+{
+  "name": "Название из документов",
+  "author": "ФИО автора если есть",
+  "u1": ЧИСЛО, // Стоимость альтернативы в РУБЛЯХ
+  "u2": ЧИСЛО, // Эпизодов в ГОД
+  "e1": ЧИСЛО, // Минут контакта
+  "e2": ЧИСЛО, // Ваша цена / цена конкурента
+  "r1": ЧИСЛО, // Покупок в год
+  "r2": ЧИСЛО, // LTV/CAC
+  "k1": ЧИСЛО, // CAPEX в ТЫСЯЧАХ рублей
+  "k2": ЧИСЛО, // Маржинальность в %
+  "t1": ЧИСЛО, // Мес. до EBITDA+
+  "t2": ЧИСЛО, // Мес. до окупаемости
+  "s1": ЧИСЛО, // Доля рекомендаций %
+  "s2": ЧИСЛО, // NPS
+  "tam": ЧИСЛО, // TAM в МЛН руб
+  "sam": ЧИСЛО, // SAM в МЛН руб
+  "som": ЧИСЛО, // SOM в МЛН руб
+  "tav": ЧИСЛО  // TAV в МЛН руб
+}
+
+Если точных данных нет — сделай РЕАЛИСТИЧНУЮ оценку на основе контекста.`;
+  
+  if (ai === 'qwen') {
+    window.open('https://chat.qwen.ai/?prompt=' + encodeURIComponent(prompt), '_blank');
+  } else {
+    navigator.clipboard.writeText(prompt).then(() => {
+      alert('✅ Промпт скопирован! Откройте claude.ai и вставьте (Ctrl+V)');
+      window.open('https://claude.ai/new', '_blank');
+    });
+  }
+  
+  showNotif('✅ AI открыт в новой вкладке! Скопируйте JSON и вставьте в симулятор (Ctrl+V)', '#27ae60');
+}
+
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    if (document.querySelector(`script[src="${src}"]`)) return resolve();
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
 }
 </script>
 </body>
