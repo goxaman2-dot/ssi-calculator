@@ -619,9 +619,7 @@ body {
   </div>
   
   <div id="muActions" class="mu-actions" style="display:none;">
-    <button class="mu-btn" onclick="sendFilesToAI('qwen')">🤖 Открыть в Qwen</button>
-    <button class="mu-btn secondary" onclick="sendFilesToAI('claude')">🧠 Открыть в Claude</button>
-    <button class="mu-btn secondary" onclick="extractAllText()">📋 Извлечь текст</button>
+    <button class="mu-btn" onclick="extractAllText()">📋 Извлечь текст и отправить в AI</button>
   </div>
   
   <div style="margin-top: 15px; padding: 12px; background: rgba(255,255,0,0.15); border-radius: 8px; font-size: 13px;">
@@ -792,7 +790,7 @@ body {
       <button class="btn btn-primary" onclick="calculateSSI()">🌸 Посмотреть результат →</button>
       <button class="btn btn-secondary" onclick="saveJSON()">⬇ Сохранить анкету</button>
       <label class="btn btn-secondary" style="cursor:pointer;">
-        ⬆ Загрузить JSON
+         Загрузить JSON
         <input type="file" id="jsonUpload" accept=".json" style="display:none" onchange="loadJSON(event)">
       </label>
     </div>
@@ -842,11 +840,11 @@ body {
 
     <!-- ИНТЕРПРЕТАЦИЯ ЛЕПЕСТКОВ -->
     <div class="petal-interp">
-      <h3>🌸 Интерпретация индекса SSI по лепесткам лилии</h3>
+      <h3> Интерпретация индекса SSI по лепесткам лилии</h3>
       
       <div class="petal-item">
         <h4>U · Утилитарность · 15%</h4>
-        <div class="measure">Что меряет: насколько сильно клиент зависит от продукта. Чем больнее ему без вас — тем выше.</div>
+        <div class="measure"><b>Метрика:</b> насколько сильно клиент зависит от продукта. Чем больнее ему без вас — тем выше.</div>
         <div class="petal-levels">
           <div class="petal-level strong"><b>Сильно (≥7):</b> клиент теряет деньги/время без вас → легко продавать</div>
           <div class="petal-level medium"><b>Средне (5–6):</b> продукт полезен, но есть альтернативы</div>
@@ -856,7 +854,7 @@ body {
 
       <div class="petal-item">
         <h4>E · Эмоция · 20%</h4>
-        <div class="measure">Что меряет: готовность клиента платить премию и рассказывать о продукте с восторгом.</div>
+        <div class="measure"><b>Метрика:</b> готовность клиента платить премию и рассказывать о продукте с восторгом.</div>
         <div class="petal-levels">
           <div class="petal-level strong"><b>Сильно (≥7):</b> клиенты постят в соцсетях, платят больше конкурентов</div>
           <div class="petal-level medium"><b>Средне (5–6):</b> удовлетворены, но не в восторге</div>
@@ -866,7 +864,7 @@ body {
 
       <div class="petal-item">
         <h4>R · Повторяемость · 15%</h4>
-        <div class="measure">Что меряет: частота возврата клиента и соотношение LTV/CAC.</div>
+        <div class="measure"><b>Метрика:</b> частота возврата клиента и соотношение LTV/CAC.</div>
         <div class="petal-levels">
           <div class="petal-level strong"><b>Сильно (≥7):</b> подписка/расходники, LTV/CAC &gt; 3</div>
           <div class="petal-level medium"><b>Средне (5–6):</b> сезонные покупки, средний retention</div>
@@ -876,7 +874,7 @@ body {
 
       <div class="petal-item">
         <h4>K · Капитал · 15%</h4>
-        <div class="measure">Что меряет: стартовые вложения (CAPEX) и маржинальность каждой продажи.</div>
+        <div class="measure"><b>Метрика:</b> стартовые вложения (CAPEX) и маржинальность каждой продажи.</div>
         <div class="petal-levels">
           <div class="petal-level strong"><b>Сильно (≥7):</b> малый CAPEX, маржа &gt; 40% → быстрый рост</div>
           <div class="petal-level medium"><b>Средне (5–6):</b> умеренные вложения, маржа 20–40%</div>
@@ -886,7 +884,7 @@ body {
 
       <div class="petal-item">
         <h4>T · Время · 20%</h4>
-        <div class="measure">Что меряет: скорость выхода в EBITDA+ и окупаемости инвестиций.</div>
+        <div class="measure"><b>Метрика:</b> скорость выхода в EBITDA+ и окупаемости инвестиций.</div>
         <div class="petal-levels">
           <div class="petal-level strong"><b>Сильно (≥7):</b> до 6 мес. до EBITDA, до 12 мес. окупаемость</div>
           <div class="petal-level medium"><b>Средне (5–6):</b> 6–12 мес. до EBITDA, 12–24 мес. окупаемость</div>
@@ -896,7 +894,7 @@ body {
 
       <div class="petal-item">
         <h4>S · Социальный · 15%</h4>
-        <div class="measure">Что меряет: сила сарафанного радио и готовность клиентов рекомендовать (NPS).</div>
+        <div class="measure"><b>Метрика:</b> сила сарафанного радио и готовность клиентов рекомендовать (NPS).</div>
         <div class="petal-levels">
           <div class="petal-level strong"><b>Сильно (≥7):</b> &gt;30% приходят по рекомендации, NPS &gt; 50</div>
           <div class="petal-level medium"><b>Средне (5–6):</b> 10–30% рекомендаций, NPS 0–50</div>
@@ -1277,9 +1275,10 @@ function showNotif(msg, color) {
 }
 
 // ============================================
-// МУЛЬТИ-ЗАГРУЗЧИК ФАЙЛОВ
+// МУЛЬТИ-ЗАГРУЗЧИК ФАЙЛОВ (ИСПРАВЛЕННАЯ ВЕРСИЯ)
 // ============================================
 let uploadedFiles = [];
+let extractedText = ''; // Глобальная переменная для текста
 
 const dropZone = document.getElementById('dropZone');
 dropZone.addEventListener('dragover', (e) => {
@@ -1317,7 +1316,7 @@ function handleMultiFiles(files) {
       uploadedFiles.push(file);
       totalSize += file.size;
     } else {
-      showNotif(`⚠️ Формат ${file.name} не поддерживается`, '#f39c12');
+      showNotif(`️ Формат ${file.name} не поддерживается`, '#f39c12');
     }
   }
   
@@ -1332,7 +1331,7 @@ function renderUploadedFiles() {
     return;
   }
   
-  const icons = { 'docx': '📄', 'pdf': '📕', 'xlsx': '📊', 'xls': '📊', 'pptx': '📽️', 'png': '🖼️', 'jpg': '🖼️', 'jpeg': '🖼️' };
+  const icons = { 'docx': '', 'pdf': '📕', 'xlsx': '📊', 'xls': '', 'pptx': '📽️', 'png': '🖼️', 'jpg': '🖼️', 'jpeg': '️' };
   
   let html = '<strong style="font-size: 14px;">📎 Загружено файлов: ' + uploadedFiles.length + '</strong>';
   
@@ -1360,6 +1359,7 @@ function removeFile(index) {
   renderUploadedFiles();
 }
 
+// Извлечение текста
 async function extractAllText() {
   const progress = document.getElementById('muProgress');
   const progressBar = document.getElementById('muProgressFill');
@@ -1427,110 +1427,180 @@ async function extractAllText() {
     }
   }
   
+  extractedText = allText;
   progress.classList.remove('active');
-  showExtractedTextModal(allText);
+  showExtractedTextModal();
 }
 
-function showExtractedTextModal(text) {
+// Модальное окно (ИСПРАВЛЕННОЕ)
+function showExtractedTextModal() {
+  const oldModal = document.getElementById('extractModal');
+  if (oldModal) oldModal.remove();
+  
   const modal = document.createElement('div');
+  modal.id = 'extractModal';
   modal.style.cssText = `
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.7); z-index: 10000;
+    background: rgba(0,0,0,0.75); z-index: 10000;
     display: flex; align-items: center; justify-content: center;
     padding: 20px;
   `;
   
+  const previewText = extractedText.substring(0, 5000) + (extractedText.length > 5000 ? '\n\n... (обрезано для предпросмотра)' : '');
+  
   modal.innerHTML = `
     <div style="
       background: white; border-radius: 16px; padding: 30px;
-      max-width: 800px; width: 100%; max-height: 80vh; overflow-y: auto;
+      max-width: 850px; width: 100%; max-height: 85vh; overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     ">
-      <h3 style="margin: 0 0 15px 0;">📋 Извлечённые данные</h3>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h3 style="margin: 0; color: #1e3c72;">📋 Извлечённые данные из файлов</h3>
+        <button onclick="closeExtractModal()" style="
+          background: #e74c3c; color: white; border: none;
+          width: 36px; height: 36px; border-radius: 50%;
+          font-size: 20px; cursor: pointer; line-height: 1;
+        ">✕</button>
+      </div>
+      
       <div style="
         background: #f8f9fa; padding: 15px; border-radius: 8px;
-        font-family: monospace; font-size: 12px; white-space: pre-wrap;
-        max-height: 400px; overflow-y: auto; margin-bottom: 20px;
-      ">${text.substring(0, 5000)}${text.length > 5000 ? '...' : ''}</div>
+        font-family: 'Courier New', monospace; font-size: 12px; 
+        white-space: pre-wrap; line-height: 1.5;
+        max-height: 350px; overflow-y: auto; margin-bottom: 20px;
+        border: 1px solid #e0e0e0;
+      ">${previewText}</div>
+      
+      <div style="
+        background: #fff3cd; border-left: 4px solid #ffc107;
+        padding: 12px; border-radius: 6px; margin-bottom: 20px;
+        font-size: 13px; color: #856404;
+      ">
+        💡 <strong>Что дальше:</strong> Нажмите кнопку ниже — AI проанализирует документы и создаст JSON-анкету SSI. Скопируйте JSON и вставьте в симулятор через Ctrl+V.
+      </div>
       
       <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <button onclick="sendToAIWithText('qwen', this.closest('div').parentElement.previousElementSibling.textContent)" style="
+        <button onclick="sendToAI('qwen')" style="
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          color: white; border: none; padding: 12px 24px;
-          border-radius: 8px; font-weight: 600; cursor: pointer;
-          flex: 1; min-width: 150px;
-        ">🤖 Отправить в Qwen</button>
+          color: white; border: none; padding: 14px 24px;
+          border-radius: 10px; font-weight: 600; cursor: pointer;
+          flex: 1; min-width: 200px; font-size: 15px;
+        ">🤖 Открыть в Qwen</button>
         
-        <button onclick="navigator.clipboard.writeText(this.closest('div').parentElement.previousElementSibling.textContent); showNotif('✅ Скопировано', '#27ae60')" style="
+        <button onclick="sendToAI('claude')" style="
+          background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+          color: white; border: none; padding: 14px 24px;
+          border-radius: 10px; font-weight: 600; cursor: pointer;
+          flex: 1; min-width: 200px; font-size: 15px;
+        ">🧠 Открыть в Claude</button>
+        
+        <button onclick="copyExtractedText()" style="
           background: #ecf0f1; color: #2c3e50; border: none;
-          padding: 12px 24px; border-radius: 8px; font-weight: 600;
-          cursor: pointer; flex: 1; min-width: 150px;
+          padding: 14px 24px; border-radius: 10px; font-weight: 600;
+          cursor: pointer; flex: 1; min-width: 200px; font-size: 15px;
         ">📋 Копировать текст</button>
-        
-        <button onclick="this.closest('div[style]').remove()" style="
-          background: #e74c3c; color: white; border: none;
-          padding: 12px 24px; border-radius: 8px; font-weight: 600;
-          cursor: pointer; flex: 1; min-width: 150px;
-        ">✕ Закрыть</button>
       </div>
     </div>
   `;
   
   document.body.appendChild(modal);
-}
-
-function sendFilesToAI(ai) {
-  extractAllText().then(() => {
-    setTimeout(() => {
-      const textArea = document.querySelector('.modal-text-area');
-      if (textArea) sendToAIWithText(ai, textArea.textContent);
-    }, 500);
+  
+  // Закрытие по клику на фон
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) closeExtractModal();
+  });
+  
+  // Закрытие по Escape
+  document.addEventListener('keydown', function escHandler(e) {
+    if (e.key === 'Escape') {
+      closeExtractModal();
+      document.removeEventListener('keydown', escHandler);
+    }
   });
 }
 
-function sendToAIWithText(ai, text) {
+function closeExtractModal() {
+  const modal = document.getElementById('extractModal');
+  if (modal) modal.remove();
+}
+
+function copyExtractedText() {
+  navigator.clipboard.writeText(extractedText).then(() => {
+    showNotif('✅ Текст скопирован в буфер обмена', '#27ae60');
+  }).catch(() => {
+    const textarea = document.createElement('textarea');
+    textarea.value = extractedText;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    showNotif('✅ Текст скопирован', '#27ae60');
+  });
+}
+
+function sendToAI(ai) {
   const prompt = `ТЫ — ЭКСПЕРТ ПО SSI (Self-Sufficiency Index)
 
 Проанализируй документы стартапа и заполни JSON-анкету для симулятора SSI.
 
 === ДОКУМЕНТЫ СТАРТАПА ===
-${text.substring(0, 8000)}
+${extractedText.substring(0, 8000)}
 === КОНЕЦ ДОКУМЕНТОВ ===
 
-ЗАПОЛНИ JSON СТРОГО ПО ШАБЛОНУ (верни ТОЛЬКО JSON):
+ЗАПОЛНИ JSON СТРОГО ПО ШАБЛОНУ (верни ТОЛЬКО JSON без пояснений):
 
 {
   "name": "Название из документов",
   "author": "ФИО автора если есть",
-  "u1": ЧИСЛО, // Стоимость альтернативы в РУБЛЯХ
-  "u2": ЧИСЛО, // Эпизодов в ГОД
-  "e1": ЧИСЛО, // Минут контакта
-  "e2": ЧИСЛО, // Ваша цена / цена конкурента
-  "r1": ЧИСЛО, // Покупок в год
-  "r2": ЧИСЛО, // LTV/CAC
-  "k1": ЧИСЛО, // CAPEX в ТЫСЯЧАХ рублей
-  "k2": ЧИСЛО, // Маржинальность в %
-  "t1": ЧИСЛО, // Мес. до EBITDA+
-  "t2": ЧИСЛО, // Мес. до окупаемости
-  "s1": ЧИСЛО, // Доля рекомендаций %
-  "s2": ЧИСЛО, // NPS
-  "tam": ЧИСЛО, // TAM в МЛН руб
-  "sam": ЧИСЛО, // SAM в МЛН руб
-  "som": ЧИСЛО, // SOM в МЛН руб
-  "tav": ЧИСЛО  // TAV в МЛН руб
+  "u1": ЧИСЛО,
+  "u2": ЧИСЛО,
+  "e1": ЧИСЛО,
+  "e2": ЧИСЛО,
+  "r1": ЧИСЛО,
+  "r2": ЧИСЛО,
+  "k1": ЧИСЛО,
+  "k2": ЧИСЛО,
+  "t1": ЧИСЛО,
+  "t2": ЧИСЛО,
+  "s1": ЧИСЛО,
+  "s2": ЧИСЛО,
+  "tam": ЧИСЛО,
+  "sam": ЧИСЛО,
+  "som": ЧИСЛО,
+  "tav": ЧИСЛО
 }
 
-Если точных данных нет — сделай РЕАЛИСТИЧНУЮ оценку на основе контекста.`;
+ПРАВИЛА:
+- Все числа положительные (кроме s2 NPS который может быть отрицательным)
+- k1 — в ТЫСЯЧАХ рублей (500000 руб → 500)
+- tam/sam/som/tav — в МЛН рублей
+- Если данных нет — сделай реалистичную оценку
+- e2 — КОЭФФИЦИЕНТ (ваша цена / цена конкурента)
+
+После JSON напиши 2-3 предложения: что получилось, какие допущения.`;
   
   if (ai === 'qwen') {
-    window.open('https://chat.qwen.ai/?prompt=' + encodeURIComponent(prompt), '_blank');
-  } else {
     navigator.clipboard.writeText(prompt).then(() => {
-      alert('✅ Промпт скопирован! Откройте claude.ai и вставьте (Ctrl+V)');
+      showNotif('✅ Промпт скопирован! Вставьте его в Qwen (Ctrl+V)', '#27ae60');
+      setTimeout(() => {
+        window.open('https://chat.qwen.ai/', '_blank');
+      }, 500);
+    }).catch(() => {
+      window.open('https://chat.qwen.ai/?prompt=' + encodeURIComponent(prompt), '_blank');
+    });
+  } else if (ai === 'claude') {
+    navigator.clipboard.writeText(prompt).then(() => {
+      showNotif('✅ Промпт скопирован! Вставьте его в Claude (Ctrl+V)', '#27ae60');
+      setTimeout(() => {
+        window.open('https://claude.ai/new', '_blank');
+      }, 500);
+    }).catch(() => {
+      alert('⚠️ Браузер блокирует копирование. Скопируйте текст вручную и вставьте в Claude.');
       window.open('https://claude.ai/new', '_blank');
     });
   }
   
-  showNotif('✅ AI открыт в новой вкладке! Скопируйте JSON и вставьте в симулятор (Ctrl+V)', '#27ae60');
+  closeExtractModal();
 }
 
 function loadScript(src) {
